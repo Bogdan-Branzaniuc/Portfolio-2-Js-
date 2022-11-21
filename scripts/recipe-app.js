@@ -11,7 +11,6 @@ document.querySelector('#search-text').addEventListener('input', (e) => {
 })
 
 const savedRecipes = functions.getSavedRecipes()
-//functions.deleteRecipe()
 
 functions.renderRecipesBlock()
 
