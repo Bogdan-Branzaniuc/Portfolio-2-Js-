@@ -1,25 +1,32 @@
-class Api {
-    callApi(gameState) {
-        const options = {
-            method: 'GET',
-            headers: {
-                'X-RapidAPI-Key': '4d7b70ad50msh55d950e4991579cp104b01jsn94aca4159235',
-                'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
-            }
-        };
+import {
+    wordsApiCall,
+} from "./api-requests.js"
+import {
+    GameState
+} from "./game-state.js";
 
-        fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', options)
-            .then(response => response.json())
-            .then(response => console.log(response))
-            .then(response => {
-                gameState.renderWord(response)
-            })
-            .catch(err => console.error(err))
-    }
+
+
+//eventlisteners - word count change
+//               - dificulty change
+//               - letter input
+
+
+const startGame = async () => {
+    const puzzleWord = await wordsApiCall()
+    let settings = [true, 1, 6]
+    let gameState = new GameState(settings, puzzleWord)
+    gameState.renderGame('hangman-word-game-section')
+
+    ////// Future gameState methods
+    //gameState.stopGame
+    //gameState.updateWord
+    //gameState.updateHangPlatform
+    //gameState.failedGame
+    //gameState.apiReachedLimitForToday
 }
-let api = new Api
 
-api.callApi(gameState)
+startGame()
 
 
 
