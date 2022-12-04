@@ -18,9 +18,10 @@ const startGame = async () => {
     let gameState = new GameState(settings, puzzleWord)
     gameState.renderGame('hangman-word-game-section')
 
-    ////// Future gameState methods
+    //////  gameState methods
     //gameState.stopGame
     //gameState.updateWord
+    //gameState.updateSettings
     //gameState.updateHangPlatform
     //gameState.failedGame
     //gameState.apiReachedLimitForToday
