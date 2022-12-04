@@ -16,14 +16,17 @@ const startGame = async () => {
     const puzzleWord = await wordsApiCall()
     let settings = [true, 1, 6]
     let gameState = new GameState(settings, puzzleWord)
-    gameState.renderGame('hangman-word-game-section')
+    gameState.renderGame('word-junction-col')
 
     //////  gameState methods
-    //gameState.stopGame
+    //gameState.renderWord
+    //gameState.renderHint
+    //gameState.renderHangPlatform
     //gameState.updateWord
     //gameState.updateSettings
     //gameState.updateHangPlatform
     //gameState.failedGame
+    //gameState.stopGame
     //gameState.apiReachedLimitForToday
 }
 
