@@ -21,12 +21,32 @@ a {
 
 }
 
-.game-section-container {
+.game-settings-collumn {
+    text-align: left;
+}
+
+.game-settings-collumn>* {
     width: 100%;
+
+}
+
+.game-section-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
+
+.game-settings-form .btn-group,
+.text-input-guess-word,
+.submit-settings-button,
+#reset-word-button {
+    width: 100%;
+}
+
+.text-input-guess-word {
+    text-align: center;
+}
+
 
 #navbar-example2 {
     position: fixed;
@@ -37,8 +57,19 @@ a {
     padding-top: 30vh;
 }
 
-span {
+#puzzle-span-letter {
     border-bottom: 1px solid #534f59;
+    display: inline-block;
+    font-size: 2rem;
+    height: 2.4rem;
+    line-height: 2.4rem;
+    margin: 0 .1rem;
+    text-align: center;
+    text-transform: uppercase;
+    width: 3%;
+}
+
+#puzzle-span-space {
     display: inline-block;
     font-size: 2rem;
     height: 2.4rem;

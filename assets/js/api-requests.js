@@ -8,7 +8,6 @@ const wordsApiCall = async () => {
     };
     const response = await fetch('https://wordsapiv1.p.rapidapi.com/words/?random=true', options)
 
-
     if (response.status === 200) {
         const data = await response.json()
         return data

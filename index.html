@@ -40,85 +40,72 @@
             </ul>
         </nav>
     </header>
+
     <section id="introductory-section" class="section">
+        <div class="container text-center">
+            <h1>Welcome to the Hangman Game</h1>
+            <p>Hangman is great!</p>
+            <p>It teaches you that just by saying the wrong things, you can end someone's life!</p>
+        </div>
     </section>
+
     <section id="hangman-word-game-section" class="section game-section-container">
         <div class="container text-center">
             <div class="row">
-                <div class="col"> Game Settings
+                <div class="col game-settings-collumn">
+                    <h1> Game Settings</h1>
                     <!--############# word settings difficulty form ###############-->
-                    <form class="difficulty-word-settings-wrapper" id="sellect-word-settings-hint">
-                        <label for="sellect-word-settings-hint">select hint type</label>
-                        <div>
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple radio buttons for the hint type">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault1" checked>
-                                <label class="form-check-label" for="flexRadioDefault1">
-                                    definition
-                                </label>
-                            </div>
+                    <form class="game-settings-form" id="difficulty-level-form">
+                        <h2 for="sellect-word-settings-hint">select difficulty level</h1>
+                            <div class="btn-group">
+                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-1"
+                                    autocomplete="off" checked />
+                                <label class="btn btn-primary" for="word-difficulty-option-1">1</label>
 
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple select for the level of difficulty">
-                                <input class="form-check-input" type="radio" name="flexRadioDefault"
-                                    id="flexRadioDefault2">
-                                <label class="form-check-label" for="flexRadioDefault2">
-                                    number of syllables
-                                </label>
+                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-2"
+                                    autocomplete="off" />
+                                <label class="btn btn-primary" for="word-difficulty-option-2">2</label>
+
+                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-3"
+                                    autocomplete="off" />
+                                <label class="btn btn-primary" for="word-difficulty-option-3">3</label>
                             </div>
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple select for the level of difficulty">
-                                <input class="form-check-input " type="radio" name="flexRadioDefault"
-                                    id="flexRadioHintType3">
-                                <label class="form-check-label" for="flexRadioHintType3">
-                                    none
-                                </label>
+                    </form>
+
+                    <!--############# word settings hint-type ###############-->
+                    <form class="game-settings-form" id="hint-type-form">
+                        <h2 for="sellect-word-settings-hint">ask for hint</h1>
+                            <div class="btn-group">
+                                <input type="radio" class="btn-check" name="options" id="hint-option-none"
+                                    autocomplete="off" checked />
+                                <label class="btn btn-primary" for="hint-option-none">none</label>
+
+                                <input type="radio" class="btn-check" name="options" id="hint-option-part-of-speech"
+                                    autocomplete="off" />
+                                <label class="btn btn-primary" for="hint-option-part-of-speech">part of speech</label>
+
+                                <input type="radio" class="btn-check" name="options" id="hint-option-definition"
+                                    autocomplete="off" />
+                                <label class="btn btn-primary" for="hint-option-definition">definitioon</label>
                             </div>
-                        </div>
-                        <input type="submit" value="retrieve your word">
 
                     </form>
-                    <!--############# word settings hint-type and letter-gues-form ###############-->
-                    <form>
-                        <label for="sellect-word-settings-difficulty">select game difficulty</label>
-                        <div class="difficulty-word-settings-wrapper" id="sellect-word-settings-difficulty">
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple select for the level of difficulty">
-                                <input class="form-check-input" type="radio" name="flexRadioDifficulty"
-                                    id="flexRadioDifficulty1" checked>
-                                <label class="form-check-label" for="flexRadioDifficulty1">
-                                    1
-                                </label>
-                            </div>
-
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple select for the level of difficulty">
-                                <input class="form-check-input" type="radio" name="flexRadioDifficulty"
-                                    id="flexRadioDifficulty2">
-                                <label class="form-check-label" for="flexRadioDifficulty2">
-                                    2
-                                </label>
-                            </div>
-                            <div class="form-check-inline sellect-word-settings"
-                                aria-label="multiple select for the level of difficulty">
-                                <input class="form-check-input " type="radio" name="flexRadioDifficulty"
-                                    id="flexRadioDifficulty3">
-                                <label class="form-check-label" for="flexRadioDifficulty3">
-                                    3
-                                </label>
-                            </div>
-                        </div>
-                        <input type="submit" value="Make Guess">
-                        <input id="input-letter-word-puzzle" type="text" class="form-control d-inline" maxlength="1"
-                            placeholder="guess a letter of the word" aria-label="Recipient's username"
-                            aria-describedby="basic-addon2">
-
+                    <!--############# make guess form ###############-->
+                    <form class="game-settings-form" id="guess-letter-form">
+                        <input class="text-input-guess-word" id="input-letter-word-puzzle" type="text" maxlength="1"
+                            placeholder="type your guess letter here" aria-label="type your letter guess in here"
+                            required>
+                        <div><input type="submit" value="Make guess" class="submit-settings-button"></div>
+                        <button type="button" class="btn btn-primary" id="reset-word-button">reset word</button>
                     </form>
 
                 </div>
                 <div class="col" id="word-junction-col">
-                    <p>2 of 2</p>
+                    <div id="hint">
+                        </divid>
+
+                    </div>
+                    <div id="word"></div>
                 </div>
             </div>
         </div>
@@ -134,7 +121,9 @@
     </section>
     <footer>
     </footer>
+
     <script type="module" src="assets/js/app.js"></script>
+    <script src="assets/js/prevent-default.js"></script>
 </body>
 
 </html>
