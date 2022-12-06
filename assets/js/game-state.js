@@ -14,6 +14,7 @@ class GameState {
         }
         this.lettersGuessed = []
         this.lettersTried = []
+        this.letterTry = ''
     }
     //////  gameState methods
     //gameState.renderWord //done
@@ -32,43 +33,32 @@ class GameState {
     renderGame() {
         this.renderWordPuzzle()
         this.renderHint()
+        this.renderLetters()
+        this.renderLives()
     }
 
     renderWordPuzzle() {
-        const wordJunctionElement = document.getElementById('word')
-        wordJunctionElement.innerHTML = ''
+        const wordJunctionWordElement = document.getElementById('word')
+        wordJunctionWordElement.innerHTML = ''
         // split puzzle, foreach letter create span
         for (let i = 0; i < this.puzzleWord.length; i++) {
-            //if a space, create a space
             const puzzleElement = document.createElement('span')
-            if (this.puzzleWord[i] == ' ') {
-                puzzleElement.setAttribute('id', "puzzle-span-space")
-            } else {
-                puzzleElement.setAttribute('id', "puzzle-span-letter")
-            }
 
-            puzzleElement.setAttribute('class', "puzzle-span-element")
-            if (this.lettersGuessed.includes(this.puzzleWord[i])) {
-                puzzleElement.textContent = this.puzzleWord[i]
-                puzzleElement.setAttribute('id', "puzzle-span-space")
+            //if a space, create a space
+            if (this.puzzleWord[i] == ' ') {
+                puzzleElement.setAttribute('class', "puzzle-span-space")
             } else {
-                puzzleElement.textContent = ''
+                puzzleElement.setAttribute('class', "puzzle-span-letter")
+                puzzleElement.setAttribute('id', "puzzle-span-letter-" + this.puzzleWord[i] + i)
             }
-            wordJunctionElement.appendChild(puzzleElement)
+            wordJunctionWordElement.appendChild(puzzleElement)
         }
-        // nice experiment !!!
-        gsap.from('#word', {
-            x: 50,
-            duration: 1,
-            opacity: 0
-        });
-        //define ID for wordPuzzle for future animations
     }
 
     renderHint() {
         //word Hint
-        const wordJunctionElement = document.getElementById('hint')
-        wordJunctionElement.innerHTML = ''
+        const wordJunctionHintElement = document.getElementById('hint')
+        wordJunctionHintElement.innerHTML = ''
 
         const puzzleWordHint = document.createElement('p')
         puzzleWordHint.textContent = "Hint: "
@@ -80,9 +70,33 @@ class GameState {
         } else {
             puzzleWordHint.textContent = this.hint.none
         }
-        wordJunctionElement.appendChild(puzzleWordHint)
+        wordJunctionHintElement.appendChild(puzzleWordHint)
         //define ID for hint for future animations
     }
+
+    renderLetters() {
+        for (let i = 0; i < this.puzzleWord.length; i++) {
+            if (this.puzzleWord[i] != ' ') {
+                const letterElement = document.querySelector(`#puzzle-span-letter-${this.puzzleWord[i]+i}`)
+                if (this.lettersGuessed.includes(this.puzzleWord[i])) {
+                    letterElement.textContent = this.puzzleWord[i]
+                    letterElement.setAttribute('class', "puzzle-span-space")
+                }
+                if (this.letterTry === this.puzzleWord[i])
+                    gsap.from(letterElement, {
+                        opacity: 0
+                    });
+            }
+        }
+    }
+    renderLives() {
+        const wordJunctionLivesElement = document.getElementById('lives')
+        wordJunctionLivesElement.innerHTML = ''
+        const livesParagraph = document.createElement('p')
+        livesParagraph.textContent = this.settings.lives
+        wordJunctionLivesElement.appendChild(livesParagraph)
+    }
+
     makeGuess(letterTry) {
         if (this.lettersTried.includes(letterTry)) {
             console.log('this has allready been guessed')
@@ -91,15 +105,23 @@ class GameState {
         } else if (!this.puzzleWord.includes(letterTry) && !this.lettersTried.includes(letterTry)) {
             if (this.settings.lives > 0) {
                 this.settings.lives--
+                console.log('oops')
+            } else {
+                console.log('game-over')
             }
-            console.log('oops')
         }
         this.lettersTried.push(letterTry)
         this.lettersTried = [...new Set(this.lettersTried)];
-        console.log(this.lettersTried)
+        this.lettersGuessed = [...new Set(this.lettersGuessed)]
+        this.letterTry = letterTry
+        console.log(this.lettersTried + " from makeGuess function")
         console.log(this.settings.lives)
-        this.renderGame()
+
+        this.renderLetters()
+        this.renderLives()
     }
+
+
 }
 export {
     GameState

@@ -57,7 +57,7 @@ a {
     padding-top: 30vh;
 }
 
-#puzzle-span-letter {
+.puzzle-span-letter {
     border-bottom: 1px solid #534f59;
     display: inline-block;
     font-size: 2rem;
@@ -69,13 +69,17 @@ a {
     width: 3%;
 }
 
-#puzzle-span-space {
+.puzzle-span-space {
     display: inline-block;
-    font-size: 2rem;
+    font-size: 1rem;
     height: 2.4rem;
     line-height: 2.4rem;
     margin: 0 .1rem;
     text-align: center;
     text-transform: uppercase;
     width: 3%;
+}
+
+#word {
+    height: 100px;
 }
