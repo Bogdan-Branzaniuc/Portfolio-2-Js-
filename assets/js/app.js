@@ -41,21 +41,16 @@ document.querySelector('#hint-type-form').addEventListener('change', (e) => {
 //word difficulty change
 document.querySelector('#difficulty-level-form').addEventListener('change', (e) => {
     console.log(e.target.id)
-    console.log(gameState)
     //gameState.renderGame()
 })
-//letter input
 
+//letter input
 document.querySelector('#guess-letter-form').addEventListener('submit', (e) => {
     console.log(e.target.id)
     const letterTry = document.querySelector('#input-letter-word-puzzle').value
     document.querySelector('#input-letter-word-puzzle').value = ''
     gameState.makeGuess(letterTry)
-
-
-    //verify the guessed letter
-    //gameState.renderGame()
 })
 
-// reset word
+// reset game with a new word
 document.querySelector('#reset-word-button').addEventListener('click', startGame)
