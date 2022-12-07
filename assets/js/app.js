@@ -6,8 +6,11 @@ import {
 } from "./game-state.js";
 
 let gameState
-let currentDifficultyType = 1
+let currentDifficultyType
 let currentHintType = 'none'
+
+//helps with not rendering the game twice when changing difficulty-level with no tryes submitted yet
+let dfficultyLevelChangeLock
 const startGame = async () => {
 
     // ************* commented out for api-usage-limit reasons ***********************
@@ -22,6 +25,7 @@ const startGame = async () => {
             partOfSpeech: 'exclamation'
         }]
     }
+    dfficultyLevelChangeLock = false
     gameState = new GameState(puzzleWord)
     gameState.settings.difficulty = currentDifficultyType
     gameState.settings.hint = currentHintType
@@ -46,30 +50,31 @@ document.querySelector('#hint-type-form').addEventListener('change', (e) => {
 //word difficulty change
 document.querySelector('#difficulty-level-form').addEventListener('change', (e) => {
     console.log(e.target.id)
-    if (confirm('This action will reset the game with a new word')) {
-        startGame()
-        currentDifficultyType = e.target.id[e.target.id.length - 1]
-        gameState.settings.difficulty = e.target.id[e.target.id.length - 1]
-        if (gameState.settings.difficulty == 1) {
-            gameState.settings.lives = 6
-        } else if (gameState.settings.difficulty == 2) {
-            gameState.settings.lives = 4
-        } else if (gameState.settings.difficulty == 3)(
-            gameState.settings.lives = 2
-        )
+    let sellectedDifficulty = e.target.id[e.target.id.length - 1]
+    if (!dfficultyLevelChangeLock) {
+        gameState.renderDifficulty(sellectedDifficulty)
+        currentDifficultyType = gameState.settings.difficulty
         gameState.renderGame()
-    } else {
-        //e.target.checked = false
-        document.getElementById(`word-difficulty-option-${currentDifficultyType}`).checked = true
-    }
 
+    } else {
+        if (confirm('This action will reset the game with a new word')) {
+            startGame()
+            gameState.renderDifficulty(sellectedDifficulty)
+            currentDifficultyType = gameState.settings.difficulty
+            gameState.renderGame()
+        } else {
+            document.getElementById(`word-difficulty-option-${currentDifficultyType}`).checked = true
+        }
+
+    }
 })
 
 //letter input
 document.querySelector('#guess-letter-form').addEventListener('submit', (e) => {
-    const letterTry = document.querySelector('#input-letter-word-puzzle').value
+    const letterTry = document.querySelector('#input-letter-word-puzzle').value.toLowerCase()
     document.querySelector('#input-letter-word-puzzle').value = ''
     gameState.makeGuess(letterTry)
+    dfficultyLevelChangeLock = true
 })
 
 // reset game with a new word
