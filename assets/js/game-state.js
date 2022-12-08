@@ -16,13 +16,16 @@ class GameState {
         this.lettersTried = []
         this.letterTry = ''
 
+        this.isGameOverFlag = false
+
         //DOM ELEMENTS
-        this.gameDiv = document.getElementById('game-container')
+        this.gameSettingsElement = document.getElementById('settings-block')
+        this.gameDiv = document.getElementById('word-junction-col')
         this.wordJunctionWordElement = document.getElementById('word')
         this.wordJunctionHintElement = document.getElementById('hint')
         this.wordJunctionLivesElement = document.getElementById('lives')
         this.settingsEllement = document.getElementById('settings-block')
-        this.gameOverEllement = document.getElementById('game-over-message-div')
+        this.gameOverEllement = document.getElementById('game-over-div')
     }
     //////  gameState methods
     //gameState.renderWord //done
@@ -38,6 +41,7 @@ class GameState {
     // renderGame will use all the other render-functions to render the current state of the gameState object
     renderGame() {
         this.renderWordPuzzle()
+        this.setDifficulty(this.settings.difficulty)
         this.renderHint()
         this.renderLetters()
         this.renderLives()
@@ -60,7 +64,6 @@ class GameState {
     }
 
     renderHint() {
-        //word Hint
         this.wordJunctionHintElement.innerHTML = ''
         const puzzleWordHint = document.createElement('p')
         puzzleWordHint.textContent = "Hint: "
@@ -73,7 +76,6 @@ class GameState {
             puzzleWordHint.textContent = this.hint.none
         }
         this.wordJunctionHintElement.appendChild(puzzleWordHint)
-        //define ID for hint for future animations
     }
 
     renderLetters() {
@@ -95,12 +97,14 @@ class GameState {
     renderLives() {
         this.wordJunctionLivesElement.innerHTML = ''
         const livesParagraph = document.createElement('p')
+        console.log(this.settings.lives + " from renderLives")
         livesParagraph.textContent = this.settings.lives
         this.wordJunctionLivesElement.appendChild(livesParagraph)
     }
 
-    renderDifficulty(sellectedDifficulty) {
+    setDifficulty(sellectedDifficulty) {
         this.settings.difficulty = sellectedDifficulty
+        console.log(this.settings.difficulty + " from setDifficulty")
         if (this.settings.difficulty == 1) {
             this.settings.lives = 6
         } else if (this.settings.difficulty == 2) {
@@ -133,41 +137,57 @@ class GameState {
     isGameOver() {
         if (this.settings.lives <= 0) {
             console.log('Game Over')
-            // gsap.to([this.wordJunctionWordElement, this.wordJunctionHintElement, this.wordJunctionLivesElement], {
-            //     x: 50,
-            //     duration: 1,
-            //     opacity: 0
-            // });
-            // gsap.to(this.settingsEllement, {
-            //     x: -50,
-            //     duration: 1,
-            //     opacity: 0
-            // })
-            this.renderGameOverMessage()
+            this.isGameOverFlag = true
+            this.gameOverTimeRestrictions(true)
+            this.renderGameOver()
         }
-
     }
-    renderGameOverMessage() {
+    gameOverTimeRestrictions(isGameOverTime) { //manipulating dom elements on gameover or not
+        if (isGameOverTime) {
+            document.querySelector('#submit-make-guess-button').disabled = true
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-danger')
+            document.querySelector('#input-letter-word-puzzle').value = 'Game Over'
+            document.querySelector('#input-letter-word-puzzle').disabled = true
+        } else {
+            this.gameOverEllement.innerHTML = ''
+            document.querySelector('#submit-make-guess-button').disabled = false
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
+            document.querySelector('#input-letter-word-puzzle').value = ''
+            document.querySelector('#input-letter-word-puzzle').disabled = false
+        }
+    }
+
+    renderGameOver() { // creating dom Elements when game-over and listening to them
         const gameOverMessage1 = document.createElement('p')
         const gameOverMessage2 = document.createElement('p')
         const restartButton = document.createElement('button')
-        restartButton.setAttribute('id', 'restart-game-button')
         restartButton.setAttribute('class', 'btn btn-danger')
+        restartButton.setAttribute('id', 'restart-game-button')
         restartButton.textContent = "Restart Game"
         gameOverMessage1.textContent = 'Game Over'
         gameOverMessage2.textContent = 'The puzzle was "' + this.puzzleWord + '"'
         this.gameOverEllement.appendChild(gameOverMessage1)
         this.gameOverEllement.appendChild(gameOverMessage2)
         this.gameOverEllement.appendChild(restartButton)
-
-
         this.gameDiv.appendChild(this.gameOverEllement)
 
-        gsap.from(this.gameDiv, {
-            y: -50,
+        //this.gameSettingsElement.style.backgroundColor = 'black'
+
+        gsap.from(this.gameOverEllement, {
+            x: 900,
             duration: 1,
-            opacity: 0
+            opacity: 0,
+            ease: Bounce.easeOut
         })
+
+        document.querySelector('#restart-game-button').addEventListener('click', () => {
+            this.gameOverTimeRestrictions(false)
+            this.startGame()
+        })
+    }
+
+    renderWonGame() {
+
     }
 
 }

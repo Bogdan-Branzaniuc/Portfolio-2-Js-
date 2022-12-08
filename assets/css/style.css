@@ -11,6 +11,7 @@ a {
     position: fixed;
     width: 100%;
     color: white;
+    z-index: 2000;
 }
 
 
@@ -36,16 +37,29 @@ a {
     justify-content: space-between;
 }
 
+#word-junction-col {
+    position: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .game-settings-form .btn-group,
 .text-input-guess-word,
 .submit-settings-button,
-#reset-word-button {
+#reset-word-button,
+#restart-game-button {
+    width: 100%;
+}
+
+#game-over-div {
+
     width: 100%;
 }
 
 .text-input-guess-word {
     text-align: center;
 }
+
 
 
 #navbar-example2 {
