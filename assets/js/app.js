@@ -45,7 +45,7 @@ document.querySelector('#hint-type-form').addEventListener('change', (e) => {
 
 //word difficulty change
 document.querySelector('#difficulty-level-form').addEventListener('change', (e) => {
-    console.log(e.target.id)
+
     let sellectedDifficulty = e.target.id[e.target.id.length - 1]
     if (!dfficultyLevelChangeLock) {
         gameState.setDifficulty(sellectedDifficulty)
@@ -55,7 +55,7 @@ document.querySelector('#difficulty-level-form').addEventListener('change', (e) 
         if (confirm('This action will reset the game with a new word')) {
             currentDifficultyType = sellectedDifficulty
             gameState.setDifficulty(sellectedDifficulty)
-
+            gameState.successTimeRestrictions(false)
             gameState.gameOverTimeRestrictions(false)
             gameState.startGame()
 
@@ -66,9 +66,10 @@ document.querySelector('#difficulty-level-form').addEventListener('change', (e) 
 })
 
 //letter input
-document.querySelector('#guess-letter-form').addEventListener('submit', (e) => {
-    const letterTry = document.querySelector('#input-letter-word-puzzle').value.toLowerCase()
-    document.querySelector('#input-letter-word-puzzle').value = ''
+
+document.querySelector('#input-letter-word-puzzle').addEventListener('input', (e) => {
+    const letterTry = e.data.toLowerCase()
+    e.target.value = ''
     gameState.makeGuess(letterTry)
     dfficultyLevelChangeLock = true
 })
@@ -77,6 +78,7 @@ document.querySelector('#guess-letter-form').addEventListener('submit', (e) => {
 document.querySelector('#reset-word-button').addEventListener('click', () => {
     if (confirm('This action will reset the game with a new word')) {
         gameState.gameOverTimeRestrictions(false)
+        gameState.successTimeRestrictions(false)
         gameState.startGame()
     }
 })

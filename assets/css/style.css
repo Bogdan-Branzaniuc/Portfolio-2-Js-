@@ -47,12 +47,8 @@ a {
 .text-input-guess-word,
 .submit-settings-button,
 #reset-word-button,
-#restart-game-button {
-    width: 100%;
-}
-
-#game-over-div {
-
+#restart-game-button,
+#try-new-game-button {
     width: 100%;
 }
 

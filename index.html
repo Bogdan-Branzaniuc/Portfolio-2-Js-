@@ -90,12 +90,11 @@
 
                     </form>
                     <!--############# make guess form ###############-->
-                    <form class="game-settings-form" id="guess-letter-form">
+                    <form action="#hangman-word-game-section" class="game-settings-form" id="guess-letter-form">
                         <input class="text-input-guess-word" id="input-letter-word-puzzle" type="text" maxlength="1"
                             placeholder="type your guess letter here" aria-label="type your letter guess in here"
                             required>
-                        <div><input type="submit" value="Make guess" class="submit-settings-button"
-                                id="submit-make-guess-button"></div>
+
                         <button type="button" class="btn btn-primary" id="reset-word-button">reset word</button>
                     </form>
                 </div>
@@ -104,6 +103,7 @@
                     <div id="word"></div>
                     <div id="lives"></div>
                     <div id="game-over-div"></div>
+                    <div id="game-won-div"></div>
                 </div>
             </div>
 

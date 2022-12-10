@@ -17,6 +17,7 @@ class GameState {
         this.letterTry = ''
 
         this.isGameOverFlag = false
+        this.gameWonFlag = false
 
         //DOM ELEMENTS
         this.gameSettingsElement = document.getElementById('settings-block')
@@ -26,6 +27,7 @@ class GameState {
         this.wordJunctionLivesElement = document.getElementById('lives')
         this.settingsEllement = document.getElementById('settings-block')
         this.gameOverEllement = document.getElementById('game-over-div')
+        this.gameWonEllement = document.getElementById('game-won-div')
     }
     //////  gameState methods
     //gameState.renderWord //done
@@ -97,14 +99,14 @@ class GameState {
     renderLives() {
         this.wordJunctionLivesElement.innerHTML = ''
         const livesParagraph = document.createElement('p')
-        console.log(this.settings.lives + " from renderLives")
+
         livesParagraph.textContent = this.settings.lives
         this.wordJunctionLivesElement.appendChild(livesParagraph)
     }
 
     setDifficulty(sellectedDifficulty) {
         this.settings.difficulty = sellectedDifficulty
-        console.log(this.settings.difficulty + " from setDifficulty")
+
         if (this.settings.difficulty == 1) {
             this.settings.lives = 6
         } else if (this.settings.difficulty == 2) {
@@ -132,25 +134,26 @@ class GameState {
         this.renderLetters()
         this.renderLives()
         this.isGameOver()
+        this.isGameWon()
     }
 
     isGameOver() {
         if (this.settings.lives <= 0) {
-            console.log('Game Over')
+
             this.isGameOverFlag = true
             this.gameOverTimeRestrictions(true)
             this.renderGameOver()
         }
     }
+
     gameOverTimeRestrictions(isGameOverTime) { //manipulating dom elements on gameover or not
         if (isGameOverTime) {
-            document.querySelector('#submit-make-guess-button').disabled = true
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-danger')
             document.querySelector('#input-letter-word-puzzle').value = 'Game Over'
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
             this.gameOverEllement.innerHTML = ''
-            document.querySelector('#submit-make-guess-button').disabled = false
+
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
@@ -171,7 +174,6 @@ class GameState {
         this.gameOverEllement.appendChild(restartButton)
         this.gameDiv.appendChild(this.gameOverEllement)
 
-        //this.gameSettingsElement.style.backgroundColor = 'black'
 
         gsap.from(this.gameOverEllement, {
             x: 900,
@@ -186,9 +188,54 @@ class GameState {
         })
     }
 
-    renderWonGame() {
-
+    isGameWon() {
+        if (this.puzzleWord.replace(/\s/g, '').split('').every(letter => this.lettersGuessed.includes(letter))) {
+            console.log('success!')
+            this.gameWonFlag = true
+            this.successTimeRestrictions(true)
+            this.renderGameWon()
+        }
     }
+    successTimeRestrictions(gameWon) {
+        if (gameWon) {
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-success')
+            document.querySelector('#input-letter-word-puzzle').value = 'Success'
+            document.querySelector('#input-letter-word-puzzle').disabled = true
+        } else {
+            this.gameWonEllement.innerHTML = ''
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
+            document.querySelector('#input-letter-word-puzzle').value = ''
+            document.querySelector('#input-letter-word-puzzle').disabled = false
+        }
+    }
+
+    renderGameWon() { // creating dom Elements when game-over and listening to them
+        const gameWonMessage1 = document.createElement('p')
+        const restartButton = document.createElement('button')
+        restartButton.setAttribute('class', 'btn btn-success')
+        restartButton.setAttribute('id', 'try-new-game-button')
+        restartButton.textContent = "Try a new one"
+        gameWonMessage1.textContent = 'Congrats'
+        this.gameWonEllement.appendChild(gameWonMessage1)
+        this.gameWonEllement.appendChild(restartButton)
+        this.gameDiv.appendChild(this.gameWonEllement)
+
+
+        gsap.from(this.gameWonEllement, {
+            x: 900,
+            duration: 1,
+            opacity: 0,
+            ease: Bounce.easeOut
+        })
+
+        document.querySelector('#try-new-game-button').addEventListener('click', () => {
+            this.successTimeRestrictions(false)
+            this.startGame()
+        })
+    }
+
+
+
 
 }
 export {
