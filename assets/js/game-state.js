@@ -1,5 +1,5 @@
 class GameState {
-    constructor(puzzleWordData) {
+    constructor(puzzleWordData, hangmanAnimation) {
         this.puzzleWordData = puzzleWordData
         this.puzzleWord = puzzleWordData.word
         this.settings = {
@@ -12,36 +12,37 @@ class GameState {
             definition: this.puzzleWordData.results[0].definition,
             none: "only use hints when needed"
         }
+
         this.lettersGuessed = []
         this.lettersTried = []
         this.letterTry = ''
 
+        this.guessedThreeInARow = 0
         this.isGameOverFlag = false
-        this.gameWonFlag = false
+        this.isGameWonFlag = false
 
         //DOM ELEMENTS
+        this.hangmanAnimation = hangmanAnimation
+        //this.hangmanlottieCurrentFrame = 0
         this.gameSettingsElement = document.getElementById('settings-block')
         this.gameDiv = document.getElementById('word-junction-col')
+
         this.wordJunctionWordElement = document.getElementById('word')
         this.wordJunctionHintElement = document.getElementById('hint')
         this.wordJunctionLivesElement = document.getElementById('lives')
+
+        this.letterTrialMessageElement = document.querySelector('#input-trial-feedback-message')
+        this.letterTrialDivElement = document.querySelector('#input-trial-feedback-letter')
+
         this.settingsEllement = document.getElementById('settings-block')
         this.gameOverEllement = document.getElementById('game-over-div')
         this.gameWonEllement = document.getElementById('game-won-div')
     }
-    //////  gameState methods
-    //gameState.renderWord //done
-    //gameState.renderHint //done
-    //gameState.guessWord // done
-    //gameState.renderGame // good
-    //gameState.renderHangPlatform 
-    //gameState.apiReachedLimitForToday
-    //gameState.failedGame
-    //gameState.stopGame
-    //gameState.renderLives
+
 
     // renderGame will use all the other render-functions to render the current state of the gameState object
     renderGame() {
+        this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
         this.renderWordPuzzle()
         this.setDifficulty(this.settings.difficulty)
         this.renderHint()
@@ -88,25 +89,79 @@ class GameState {
                     letterElement.textContent = this.puzzleWord[i]
                     letterElement.setAttribute('class', "puzzle-span-space")
                 }
-                if (this.letterTry === this.puzzleWord[i])
+                if (this.letterTry === this.puzzleWord[i]) {
                     gsap.from(letterElement, {
                         opacity: 0
                     });
+                } else if (this.puzzleWord[i] == '-') {
+                    letterElement.setAttribute('class', "puzzle-span-space")
+                    letterElement.textContent = " - "
+                    letterElement.style.fontSize = '150%'
+                    letterElement.style.fontWeight = '20'
+                    this.lettersGuessed.push('-')
+                }
             }
         }
     }
 
     renderLives() {
+        if (this.guessedThreeInARow == 3) {
+            this.settings.lives += 1
+            this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
+        }
+
         this.wordJunctionLivesElement.innerHTML = ''
         const livesParagraph = document.createElement('p')
-
-        livesParagraph.textContent = this.settings.lives
+        const hearts = document.createElement('i')
+        hearts.setAttribute('class', 'fa-solid fa-heart')
+        hearts.setAttribute('id', 'lives-black-hearts')
+        livesParagraph.textContent = ' ' + this.settings.lives + ' '
+        livesParagraph.appendChild(hearts)
         this.wordJunctionLivesElement.appendChild(livesParagraph)
+
+    }
+
+    renderInputFeedback(input, feedback) {
+
+        this.letterTrialDivElement.innerHTML = ''
+        const letterElement = document.createElement('p')
+
+        letterElement.textContent = input
+        if (feedback == 0) {
+            this.letterTrialDivElement.style.backgroundColor = 'red'
+            this.letterTrialMessageElement.textContent = 'wrong guess'
+        } else if (feedback == 1) {
+            this.letterTrialDivElement.style.backgroundColor = 'green'
+            this.letterTrialMessageElement.textContent = 'great!'
+            if (this.guessedThreeInARow === 3) {
+                this.letterTrialMessageElement.textContent += 'that was 3 in a row!! yoo got a live back'
+            }
+        } else if (feedback == 2) {
+            this.letterTrialDivElement.style.backgroundColor = 'orange'
+            this.letterTrialMessageElement.textContent = 'this letter was allready judged'
+        }
+        this.letterTrialDivElement.appendChild(letterElement)
+    }
+
+    renderKeypadCollors() {
+        let flag = (this.isGameOverFlag || this.isGameWonFlag)
+        document.querySelectorAll('.hangman-keypad-buttons').forEach((button) => {
+            button.style.backgroundColor = 'grey'
+            if (this.lettersTried.includes(button.textContent)) {
+                button.style.backgroundColor = 'orange'
+            }
+            if (this.lettersGuessed.includes(button.textContent)) {
+                button.style.backgroundColor = 'green'
+            }
+            if (this.lettersTried.includes(button.textContent) && !this.lettersGuessed.includes(button.textContent)) {
+                button.style.backgroundColor = 'red'
+            }
+            button.disabled = flag
+        })
     }
 
     setDifficulty(sellectedDifficulty) {
         this.settings.difficulty = sellectedDifficulty
-
         if (this.settings.difficulty == 1) {
             this.settings.lives = 6
         } else if (this.settings.difficulty == 2) {
@@ -117,32 +172,44 @@ class GameState {
     }
 
     makeGuess(letterTry) {
+        let feedbackNumber
         if (this.lettersTried.includes(letterTry)) {
-            console.log('this has allready been guessed')
+            feedbackNumber = 2
         } else if (this.puzzleWord.includes(letterTry)) {
+            feedbackNumber = 1
             this.lettersGuessed.push(letterTry)
+            this.guessedThreeInARow += 1
         } else if (!this.puzzleWord.includes(letterTry) && !this.lettersTried.includes(letterTry)) {
             if (this.settings.lives > 0) {
+                feedbackNumber = 0
                 this.settings.lives--
-                console.log('oops')
+                this.guessedThreeInARow = 0
             }
         }
         this.lettersTried.push(letterTry)
         this.lettersTried = [...new Set(this.lettersTried)];
         this.lettersGuessed = [...new Set(this.lettersGuessed)]
         this.letterTry = letterTry
-        this.renderLetters()
+        this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
+        this.renderInputFeedback(letterTry, feedbackNumber)
         this.renderLives()
+        this.renderLetters()
         this.isGameOver()
         this.isGameWon()
+        this.renderKeypadCollors()
+        this.wasThreeInARow()
+    }
+    wasThreeInARow() {
+        if (this.guessedThreeInARow == 3) this.guessedThreeInARow = 0
     }
 
     isGameOver() {
         if (this.settings.lives <= 0) {
-
             this.isGameOverFlag = true
             this.gameOverTimeRestrictions(true)
             this.renderGameOver()
+            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' +
+                this.puzzleWord
         }
     }
 
@@ -153,7 +220,6 @@ class GameState {
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
             this.gameOverEllement.innerHTML = ''
-
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
@@ -174,7 +240,6 @@ class GameState {
         this.gameOverEllement.appendChild(restartButton)
         this.gameDiv.appendChild(this.gameOverEllement)
 
-
         gsap.from(this.gameOverEllement, {
             x: 900,
             duration: 1,
@@ -191,9 +256,11 @@ class GameState {
     isGameWon() {
         if (this.puzzleWord.replace(/\s/g, '').split('').every(letter => this.lettersGuessed.includes(letter))) {
             console.log('success!')
-            this.gameWonFlag = true
+            this.isGameWonFlag = true
             this.successTimeRestrictions(true)
             this.renderGameWon()
+            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' +
+                this.puzzleWord
         }
     }
     successTimeRestrictions(gameWon) {
@@ -209,7 +276,7 @@ class GameState {
         }
     }
 
-    renderGameWon() { // creating dom Elements when game-over and listening to them
+    renderGameWon() { // creating dom Elements when game-won and listening to them
         const gameWonMessage1 = document.createElement('p')
         const restartButton = document.createElement('button')
         restartButton.setAttribute('class', 'btn btn-success')
@@ -233,8 +300,6 @@ class GameState {
             this.startGame()
         })
     }
-
-
 
 
 }

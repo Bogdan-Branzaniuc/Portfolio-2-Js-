@@ -14,12 +14,30 @@ a {
     z-index: 2000;
 }
 
+#input-trial-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
 
+#input-trial-feedback-letter {
+    background-color: grey;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 200%;
+}
+
+#wikipedia-iframe {
+    height: 800px;
+    width: 80%
+}
 
 .section {
-    height: 100vh;
+    min-height: 60vh;
     width: 100%;
-
+    padding: 0 10%;
 }
 
 .game-settings-collumn {
@@ -35,6 +53,11 @@ a {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.btn-toolbar .hangman-keypad-buttons {
+    border: solid 1px black;
+    margin: 1px;
 }
 
 #word-junction-col {
@@ -57,7 +80,6 @@ a {
 }
 
 
-
 #navbar-example2 {
     position: fixed;
     top: 0;
@@ -66,6 +88,17 @@ a {
 #introductory-section {
     padding-top: 30vh;
 }
+
+#hangman-lottie-container {
+    width: 100%;
+    height: 100%;
+}
+
+#hangman-animation-wrapper {
+    width: 100%;
+    height: 900px;
+}
+
 
 .puzzle-span-letter {
     border-bottom: 1px solid #534f59;

@@ -5,7 +5,11 @@ import {
     GameState
 } from "./game-state.js";
 
+import {
+    HangmanLottieAnimation
+} from "./hangman-lottie-animation.js"
 let gameState
+const hangmanAnimationObject = new HangmanLottieAnimation()
 let currentDifficultyType
 let currentHintType = 'none'
 
@@ -19,19 +23,23 @@ const startGame = async () => {
     //     puzzleWord = await wordsApiCall()
     // }
     let puzzleWord = {
-        word: 'hangman is awesome',
+        word: 'flex-box',
         results: [{
             definition: 'greateness',
             partOfSpeech: 'exclamation'
         }]
     }
-
     dfficultyLevelChangeLock = false
-    gameState = new GameState(puzzleWord)
+    gameState = new GameState(puzzleWord, hangmanAnimationObject)
     gameState.settings.difficulty = currentDifficultyType
     document.getElementById('hint-option-none').checked = true
     gameState.startGame = startGame // we can start a new game within the objects methods if needed
     gameState.renderGame()
+
+    gameState.renderKeypadCollors()
+    gameState.letterTrialMessageElement.textContent = 'Make a guess'
+    gameState.letterTrialDivElement.innerHTML = ''
+    gameState.letterTrialDivElement.style.backgroundColor = 'grey'
 }
 
 startGame()
@@ -45,12 +53,13 @@ document.querySelector('#hint-type-form').addEventListener('change', (e) => {
 
 //word difficulty change
 document.querySelector('#difficulty-level-form').addEventListener('change', (e) => {
-
     let sellectedDifficulty = e.target.id[e.target.id.length - 1]
+    //setTimeout()
     if (!dfficultyLevelChangeLock) {
         gameState.setDifficulty(sellectedDifficulty)
         currentDifficultyType = sellectedDifficulty
-        gameState.renderGame()
+        gameState.renderLives()
+        hangmanAnimationObject.renderHangmanAnimation(gameState.settings.lives)
     } else {
         if (confirm('This action will reset the game with a new word')) {
             currentDifficultyType = sellectedDifficulty
@@ -65,15 +74,6 @@ document.querySelector('#difficulty-level-form').addEventListener('change', (e) 
     }
 })
 
-//letter input
-
-document.querySelector('#input-letter-word-puzzle').addEventListener('input', (e) => {
-    const letterTry = e.data.toLowerCase()
-    e.target.value = ''
-    gameState.makeGuess(letterTry)
-    dfficultyLevelChangeLock = true
-})
-
 // reset game with a new word
 document.querySelector('#reset-word-button').addEventListener('click', () => {
     if (confirm('This action will reset the game with a new word')) {
@@ -83,4 +83,14 @@ document.querySelector('#reset-word-button').addEventListener('click', () => {
     }
 })
 
+document.querySelector('#input-letter-word-puzzle').addEventListener('click', (e) => {
+    if (gameState.isGameOverFlag || gameState.isGameWonFlag) {
+        return
+    }
+    const letterTry = e.target.textContent
+    gameState.makeGuess(letterTry)
+    dfficultyLevelChangeLock = true
+})
+
 //// restart game after Game Over event is built in the gameState.renderGameOver()
+//// start a new game after Game Won event is built in the gameState.renderGameWon()
