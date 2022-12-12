@@ -16,7 +16,6 @@ let currentHintType = 'none'
 
 let dfficultyLevelChangeLock //helps with not rendering the game twice when changing difficulty-level with no tryes submitted yet
 const startGame = async () => {
-
     let puzzleWord = await wordsApiCall()
     while (!puzzleWord.results) {
         puzzleWord = await wordsApiCall()
@@ -28,7 +27,6 @@ const startGame = async () => {
     document.getElementById('hint-option-none').checked = true
     gameState.startGame = startGame // we can start a new game within the objects methods if needed
     gameState.renderGame()
-
     gameState.renderKeypadCollors()
     gameState.letterTrialMessageElement.textContent = 'Make a guess'
     gameState.letterTrialDivElement.innerHTML = ''
