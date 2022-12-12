@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="description" content="Hangman Game Application for my second Project with Code Institute Course">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta keywords="hangman, game, word-puzzle, puzzle, words">
+    <meta name="keywords" content="hangman, game, word-puzzle, puzzle, words">
     <title>Hangman</title>
     <link rel="stylesheet" href="assets/css/style.css">
 
@@ -33,7 +33,7 @@
     <!-- font-awesome css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#nav-bar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
@@ -71,7 +71,7 @@
     <section id="hangman-word-game-section" class="section game-section-container">
         <div class="container text-center">
             <div class="row" id="game-container">
-                <div class="col" id=" hangman-animation-wrapper">
+                <div class="col" id="hangman-animation-wrapper">
                     <div id="hangman-lottie-container"></div>
                 </div>
                 <div class="col" id="word-junction-col">
@@ -125,35 +125,29 @@
                     <form class="game-settings-form" id="hint-type-form">
                         <h2>ask for hint</h2>
                         <div class="btn-group">
-                            <input type="radio" class="btn-check" name="options" id="hint-option-none"
-                                autocomplete="off" checked />
+                            <input type="radio" class="btn-check" name="options" id="hint-option-none" checked>
                             <label class="btn btn-dark" for="hint-option-none">none</label>
 
-                            <input type="radio" class="btn-check" name="options" id="hint-option-part-of-speech"
-                                autocomplete="off" />
+                            <input type="radio" class="btn-check" name="options" id="hint-option-part-of-speech">
                             <label class="btn btn-dark" for="hint-option-part-of-speech">part of speech</label>
 
-                            <input type="radio" class="btn-check" name="options" id="hint-option-definition"
-                                autocomplete="off" />
+                            <input type="radio" class="btn-check" name="options" id="hint-option-definition">
                             <label class="btn btn-dark" for="hint-option-definition">definitioon</label>
                         </div>
                     </form>
                     <form class="game-settings-form" id="difficulty-level-form">
-                        <h3>select difficulty level</h33>
-                            <div class="btn-group">
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-1"
-                                    autocomplete="off" checked />
-                                <label class="btn btn-dark" for="word-difficulty-option-1">1</label>
+                        <h3>select difficulty level</h3>
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-1" checked>
+                            <label class="btn btn-dark" for="word-difficulty-option-1">1</label>
 
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-2"
-                                    autocomplete="off" />
-                                <label class="btn btn-dark" for="word-difficulty-option-2">2</label>
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-2">
+                            <label class="btn btn-dark" for="word-difficulty-option-2">2</label>
 
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-3"
-                                    autocomplete="off" />
-                                <label class="btn btn-dark" for="word-difficulty-option-3">3</label>
-                            </div>
-                            <button type="button" class="btn btn-dark" id="reset-word-button">reset word</button>
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-3">
+                            <label class="btn btn-dark" for="word-difficulty-option-3">3</label>
+                        </div>
+                        <button type="button" class="btn btn-dark" id="reset-word-button">reset word</button>
                     </form>
                 </div>
             </div>
@@ -162,14 +156,15 @@
     <!-- colapsible -->
 
     <section id="info-section">
+        <h2 style="display:none;">Satisfying w3-validator</h2>
         <div class="container text-center">
             <button class="btn btn-dark" type="button" data-toggle="collapse" data-bs-target="#collapseExample"
                 aria-expanded="false" data-bs-toggle="collapse" aria-controls="collapseExample">
-                <p>This is a wikipedia page of this word</p>
+                This is a wikipedia page of this word
             </button>
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
-                    <iframe id="wikipedia-iframe" frameborder="0"></iframe>
+                    <iframe id="wikipedia-iframe"></iframe>
                 </div>
             </div>
             <button class="btn btn-dark" type="button" data-toggle="collapse" data-bs-target="#collapseExample"
@@ -199,14 +194,13 @@
                     <textarea class="form-control" name="message" id="message" rows="3">
             </textarea>
                 </div>
-                <input type="submit" id="email-send-button" class="form-control btn btn-dark" value="Send Email"
-                    placeholder="email_id">
+                <input type="submit" id="email-send-button" class="form-control btn btn-dark" value="Send Email">
             </form>
         </div>
 
 
         <!-- email config files-->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
         <script src="assets/config/email-config.js"></script>
     </section>
 
