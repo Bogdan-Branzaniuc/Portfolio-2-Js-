@@ -258,7 +258,6 @@ class GameState {
 
     isGameWon() {
         if (this.puzzleWord.replace(/\s/g, '').split('').every(letter => this.lettersGuessed.includes(letter))) {
-            console.log('success!')
             this.isGameWonFlag = true
             this.successTimeRestrictions(true)
             this.renderGameWon()
