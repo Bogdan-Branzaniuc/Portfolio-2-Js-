@@ -143,20 +143,20 @@
 
 
   # current Bug
-      -when or if the words api will call for a word that contains special characters, the programm will throw an error to the console, due to the way that gameState.renderWordPuzzle method gives an id to each span elements it creates. 
-      -This bug was spotted too late to catch fix it in time
-      -The solution is to create a method or independent function that builds the spaneElement-id attribute with a counting variable and then use the same routine to select and manipulate each DOM element in another part of the programm if needed
+   - when or if the words api will call for a word that contains special characters, the programm will throw an error to the console, due to the way that gameState.renderWordPuzzle method gives an id to each span elements it creates. 
+   - This bug was spotted too late to catch fix it in time
+   - The solution is to create a method or independent function that builds the spaneElement-id attribute with a counting variable and then use the same routine to select and manipulate each DOM element in another part of the programm if needed
 
 <br>
 <br>
 <br>
      
 
-# Deploiment
+# Deployment
 The project is deployed to Gihub pages
 
 MENTION 
--          I could have commited smaller chuncks of code and progress per commit, the bigger the chunk  the harder the naming, I ended up by omitting to name a huge part of the progress       
+- I could have commited smaller chuncks of code and progress per commit, the bigger the chunk  the harder the naming, I ended up by omitting to name a huge part of the progress       
 
 # Credits
 
