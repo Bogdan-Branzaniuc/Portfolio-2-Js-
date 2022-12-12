@@ -13,7 +13,7 @@ class HangmanLottieAnimation {
             renderer: 'svg',
             loop: false,
             autoplay: false,
-            path: "/assets/lottie-json-files/hangman-animation.json",
+            path: "https://lottie.host/c7dcd06b-e4ac-4152-979f-9d04746f9b88/Vln1TIJdlC.json",
         });
         this.anim.goToAndStop(151, true)
         this.anim.setSpeed(1.8)
