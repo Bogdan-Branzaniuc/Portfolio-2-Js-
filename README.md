@@ -112,8 +112,8 @@
 - light-house (I made sure to test the github hosted version, as it enables files-compression)
   - desktop ![](assets/img/light-house-desktop.png)
   - mobile ![](assets/img/light-house-mobile.png)
-- [W3C Markup Validator](https://validator.w3.org/) :  [results](https://validator.w3.org/nu/?doc=https%3A%2F%2Fbogdan-branzaniuc.github.io%2FProject-1-HTML-CSS%2Findex.html)
-- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) :  [results](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fbogdan-branzaniuc.github.io%2FProject-1-HTML-CSS%2Findex.html&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+- [W3C Markup Validator](https://validator.w3.org/) :  [results](https://validator.w3.org/nu/?doc=https%3A%2F%2Fbogdan-branzaniuc.github.io%2FPortfolio-2-Js-%2F)
+- [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) :  [results](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fbogdan-branzaniuc.github.io%2FPortfolio-2-Js-%2F&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 - [JSHint](https://jshint.com/) 
   - results:
     - click-burger-icon.js: ![](assets/img/burger-icon-js-validator.png)
