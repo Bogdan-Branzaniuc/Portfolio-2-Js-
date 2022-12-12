@@ -1,8 +1,9 @@
+const apiKey = '4d7b70ad50msh55d950e4991579cp104b01jsn94aca4159235'
 const wordsApiCall = async () => {
     const options = {
         method: 'GET',
         headers: {
-            'X-RapidAPI-Key': '4d7b70ad50msh55d950e4991579cp104b01jsn94aca4159235',
+            'X-RapidAPI-Key': apiKey,
             'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com'
         }
     };

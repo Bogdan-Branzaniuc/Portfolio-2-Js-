@@ -23,7 +23,6 @@ class GameState {
 
         //DOM ELEMENTS
         this.hangmanAnimation = hangmanAnimation
-        //this.hangmanlottieCurrentFrame = 0
         this.gameSettingsElement = document.getElementById('settings-block')
         this.gameDiv = document.getElementById('word-junction-col')
 
@@ -42,12 +41,13 @@ class GameState {
 
     // renderGame will use all the other render-functions to render the current state of the gameState object
     renderGame() {
-        this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
         this.renderWordPuzzle()
-        this.setDifficulty(this.settings.difficulty)
+        this.setDifficulty(this.settings.difficulty) //also renders hangman animation
         this.renderHint()
         this.renderLetters()
         this.renderLives()
+        this.gameOverEllement.style.visibility = 'hidden'
+        this.gameWonEllement.style.visibility = 'hidden'
     }
 
     renderWordPuzzle() {
@@ -90,8 +90,11 @@ class GameState {
                     letterElement.setAttribute('class', "puzzle-span-space")
                 }
                 if (this.letterTry === this.puzzleWord[i]) {
-                    gsap.from(letterElement, {
+                    gsap.fromTo(letterElement, {
                         opacity: 0
+                    }, {
+                        opacity: 1,
+                        duration: 0.5
                     });
                 } else if (this.puzzleWord[i] == '-') {
                     letterElement.setAttribute('class', "puzzle-span-space")
@@ -105,11 +108,6 @@ class GameState {
     }
 
     renderLives() {
-        if (this.guessedThreeInARow == 3) {
-            this.settings.lives += 1
-            this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
-        }
-
         this.wordJunctionLivesElement.innerHTML = ''
         const livesParagraph = document.createElement('p')
         const hearts = document.createElement('i')
@@ -118,11 +116,9 @@ class GameState {
         livesParagraph.textContent = ' ' + this.settings.lives + ' '
         livesParagraph.appendChild(hearts)
         this.wordJunctionLivesElement.appendChild(livesParagraph)
-
     }
 
     renderInputFeedback(input, feedback) {
-
         this.letterTrialDivElement.innerHTML = ''
         const letterElement = document.createElement('p')
 
@@ -134,7 +130,7 @@ class GameState {
             this.letterTrialDivElement.style.backgroundColor = 'green'
             this.letterTrialMessageElement.textContent = 'great!'
             if (this.guessedThreeInARow === 3) {
-                this.letterTrialMessageElement.textContent += 'that was 3 in a row!! yoo got a live back'
+                this.letterTrialMessageElement.textContent += 'that was 3 in a row!! yoo got a live back!!'
             }
         } else if (feedback == 2) {
             this.letterTrialDivElement.style.backgroundColor = 'orange'
@@ -146,10 +142,7 @@ class GameState {
     renderKeypadCollors() {
         let flag = (this.isGameOverFlag || this.isGameWonFlag)
         document.querySelectorAll('.hangman-keypad-buttons').forEach((button) => {
-            button.style.backgroundColor = 'grey'
-            if (this.lettersTried.includes(button.textContent)) {
-                button.style.backgroundColor = 'orange'
-            }
+            button.style.backgroundColor = 'black'
             if (this.lettersGuessed.includes(button.textContent)) {
                 button.style.backgroundColor = 'green'
             }
@@ -169,10 +162,12 @@ class GameState {
         } else if (this.settings.difficulty == 3)(
             this.settings.lives = 2
         )
+        this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
     }
 
     makeGuess(letterTry) {
         let feedbackNumber
+
         if (this.lettersTried.includes(letterTry)) {
             feedbackNumber = 2
         } else if (this.puzzleWord.includes(letterTry)) {
@@ -186,10 +181,12 @@ class GameState {
                 this.guessedThreeInARow = 0
             }
         }
+
         this.lettersTried.push(letterTry)
         this.lettersTried = [...new Set(this.lettersTried)];
         this.lettersGuessed = [...new Set(this.lettersGuessed)]
         this.letterTry = letterTry
+
         this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
         this.renderInputFeedback(letterTry, feedbackNumber)
         this.renderLives()
@@ -200,7 +197,13 @@ class GameState {
         this.wasThreeInARow()
     }
     wasThreeInARow() {
-        if (this.guessedThreeInARow == 3) this.guessedThreeInARow = 0
+        if (this.guessedThreeInARow == 3) {
+            this.settings.lives += 1
+            this.renderLives()
+            this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
+            this.renderInputFeedback()
+            this.guessedThreeInARow = 0
+        }
     }
 
     isGameOver() {
@@ -208,8 +211,7 @@ class GameState {
             this.isGameOverFlag = true
             this.gameOverTimeRestrictions(true)
             this.renderGameOver()
-            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' +
-                this.puzzleWord
+            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' + this.puzzleWord.split('-').join(' ')
         }
     }
 
@@ -220,7 +222,7 @@ class GameState {
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
             this.gameOverEllement.innerHTML = ''
-            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-dark')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
         }
@@ -235,6 +237,7 @@ class GameState {
         restartButton.textContent = "Restart Game"
         gameOverMessage1.textContent = 'Game Over'
         gameOverMessage2.textContent = 'The puzzle was "' + this.puzzleWord + '"'
+        this.gameOverEllement.style.visibility = 'visible'
         this.gameOverEllement.appendChild(gameOverMessage1)
         this.gameOverEllement.appendChild(gameOverMessage2)
         this.gameOverEllement.appendChild(restartButton)
@@ -259,8 +262,7 @@ class GameState {
             this.isGameWonFlag = true
             this.successTimeRestrictions(true)
             this.renderGameWon()
-            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' +
-                this.puzzleWord
+            document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' + this.puzzleWord.split('-').join(' ')
         }
     }
     successTimeRestrictions(gameWon) {
@@ -270,7 +272,7 @@ class GameState {
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
             this.gameWonEllement.innerHTML = ''
-            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-primary')
+            document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-dark')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
         }
@@ -283,6 +285,7 @@ class GameState {
         restartButton.setAttribute('id', 'try-new-game-button')
         restartButton.textContent = "Try a new one"
         gameWonMessage1.textContent = 'Congrats'
+        this.gameWonEllement.style.visibility = 'visible'
         this.gameWonEllement.appendChild(gameWonMessage1)
         this.gameWonEllement.appendChild(restartButton)
         this.gameDiv.appendChild(this.gameWonEllement)

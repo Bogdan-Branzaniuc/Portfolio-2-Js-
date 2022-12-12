@@ -8,12 +8,12 @@
     <meta keywords="hangman, game, word-puzzle, puzzle, words">
     <title>Hangman</title>
     <link rel="stylesheet" href="assets/css/style.css">
+
     <link rel="icon" type="image/x-icon" href="assets/media/favicon/icons8-hangman-game-64.png">
     <!-- bootstrap -->
-    <!-- CSS only -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
-    <!-- JavaScript Bundle with Popper -->
+    <!-- JavaScript Bundle with Popper  for collapsing wikipedia section-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
     </script>
@@ -28,17 +28,20 @@
         integrity="sha512-17otjw7eTNU9MtpB7mFfXEwB6yDjA2qjDFkKSvsywI1PRAgpyOo+cp/wPSE/1kK4fFjA9OKsZVO1tr93MGNCEw=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
+    <!-- font-awesome css -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
         integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 
 <body data-bs-spy="scroll" data-bs-target="#nav-bar" data-bs-root-margin="0px 0px -40%" data-bs-smooth-scroll="true"
-    class="scrollspy-example bg-light rounded-2" tabindex="0">
-
+    class="scrollspy-body rounded-2" tabindex="0">
     <header>
         <nav id="nav-bar" class="navbar bg-dark px-3 mb-3">
-            <a class="navbar-brand text-light" href="#">Hangman</a>
+            <a class="navbar-brand text-light" href="#">
+                <h2>Hangman</h2>
+            </a>
             <ul class="nav nav-pills">
                 <li class="nav-item ">
                     <a class="nav-link text-light" href="#introductory-section">Top</a>
@@ -67,137 +70,170 @@
     <section id="hangman-word-game-section" class="section game-section-container">
         <div class="container text-center">
             <div class="row" id="game-container">
-                <div class="col game-settings-collumn" id="settings-block">
-                    <h1> Game Settings</h1>
-                    <!--############# word settings difficulty form ###############-->
-                    <form class="game-settings-form" id="difficulty-level-form">
-                        <h2 for="sellect-word-settings-hint">select difficulty level</h1>
-                            <div class="btn-group">
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-1"
-                                    autocomplete="off" checked />
-                                <label class="btn btn-primary" for="word-difficulty-option-1">1</label>
-
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-2"
-                                    autocomplete="off" />
-                                <label class="btn btn-primary" for="word-difficulty-option-2">2</label>
-
-                                <input type="radio" class="btn-check" name="options" id="word-difficulty-option-3"
-                                    autocomplete="off" />
-                                <label class="btn btn-primary" for="word-difficulty-option-3">3</label>
-                            </div>
-                    </form>
-
-                    <!--############# word settings hint-type ###############-->
-                    <form class="game-settings-form" id="hint-type-form">
-                        <h2 for="sellect-word-settings-hint">ask for hint</h2>
-                        <div class="btn-group">
-                            <input type="radio" class="btn-check" name="options" id="hint-option-none"
-                                autocomplete="off" checked />
-                            <label class="btn btn-primary" for="hint-option-none">none</label>
-
-                            <input type="radio" class="btn-check" name="options" id="hint-option-part-of-speech"
-                                autocomplete="off" />
-                            <label class="btn btn-primary" for="hint-option-part-of-speech">part of speech</label>
-
-                            <input type="radio" class="btn-check" name="options" id="hint-option-definition"
-                                autocomplete="off" />
-                            <label class="btn btn-primary" for="hint-option-definition">definitioon</label>
-                        </div>
-                    </form>
-                    <!--############# make guess form ###############-->
-                    <form action="#hangman-word-game-section" class="game-settings-form" id="guess-letter-form">
-
-                        <div id="input-letter-word-puzzle" class="btn-toolbar" role="toolbar"
-                            aria-label="Toolbar with button groups">
-                            <div class="btn-group " role="group" aria-label="First group">
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">q</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">w</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">e</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">r</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">t</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">y</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">u</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">i</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">o</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">p</button>
-                            </div>
-                            <div class="btn-group " role="group" aria-label="Second group">
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">a</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">s</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">d</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">f</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">g</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">h</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">j</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">k</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">l</button>
-
-                            </div>
-                            <div class="btn-group" role="group" aria-label="Third group">
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">z</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">x</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">c</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">v</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">b</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">n</button>
-                                <button type="button" class="btn btn-secondary hangman-keypad-buttons">m</button>
-                            </div>
-                        </div>
-
-                        <button type="button" class="btn btn-primary" id="reset-word-button">reset word</button>
-                    </form>
+                <div class="col" id=" hangman-animation-wrapper">
+                    <div id="hangman-lottie-container"></div>
                 </div>
                 <div class="col" id="word-junction-col">
-                    <div id="input-trial-feedback">
-                        <div id="input-trial-feedback-letter"></div>
-                        <p id="input-trial-feedback-message"></p>
-                    </div>
                     <div id="hint"></div>
                     <div id="word"></div>
                     <div id="lives"></div>
+                </div>
+            </div>
+            <div class="row" id="settings-block">
+                <div id="input-trial-feedback">
+                    <div id="input-trial-feedback-letter"></div>
+                    <p id="input-trial-feedback-message"></p>
+                </div>
+                <div class="col">
                     <div id="game-over-div"></div>
                     <div id="game-won-div"></div>
-                </div>
-                <div id="hangman-animation-wrapper">
-                    <div id="hangman-lottie-container"></div>
-                </div>
+                    <form action="#hangman-word-game-section" id="guess-letter-form">
+                        <div id="input-letter-word-puzzle" class="btn-toolbar" role="toolbar"
+                            aria-label="Toolbar with button groups">
+                            <div class="btn-group" role="group" aria-label="First group">
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">q</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">w</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">e</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">r</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">t</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">y</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">u</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">i</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">o</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">p</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">a</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">s</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">d</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">f</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">g</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">h</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">j</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">k</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">l</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">z</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">x</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">c</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">v</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">b</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">n</button>
+                                <button type="button" class="btn-secondary hangman-keypad-buttons">m</button>
+                            </div>
+                        </div>
+                    </form>
 
+                    <form class="game-settings-form" id="hint-type-form">
+                        <h2>ask for hint</h2>
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="options" id="hint-option-none"
+                                autocomplete="off" checked />
+                            <label class="btn btn-dark" for="hint-option-none">none</label>
+
+                            <input type="radio" class="btn-check" name="options" id="hint-option-part-of-speech"
+                                autocomplete="off" />
+                            <label class="btn btn-dark" for="hint-option-part-of-speech">part of speech</label>
+
+                            <input type="radio" class="btn-check" name="options" id="hint-option-definition"
+                                autocomplete="off" />
+                            <label class="btn btn-dark" for="hint-option-definition">definitioon</label>
+                        </div>
+                    </form>
+                    <form class="game-settings-form" id="difficulty-level-form">
+                        <h4>select difficulty level</h4>
+                        <div class="btn-group">
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-1"
+                                autocomplete="off" checked />
+                            <label class="btn btn-dark" for="word-difficulty-option-1">1</label>
+
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-2"
+                                autocomplete="off" />
+                            <label class="btn btn-dark" for="word-difficulty-option-2">2</label>
+
+                            <input type="radio" class="btn-check" name="options" id="word-difficulty-option-3"
+                                autocomplete="off" />
+                            <label class="btn btn-dark" for="word-difficulty-option-3">3</label>
+                        </div>
+                        <button type="button" class="btn btn-dark" id="reset-word-button">reset word</button>
+                    </form>
+                </div>
             </div>
-
         </div>
     </section>
     <!-- colapsible -->
 
-    <section id="info-section" class="section ">
-        <button class="btn btn-primary" type="button" data-toggle="collapse" data-bs-target="#collapseExample"
-            aria-expanded="false" data-bs-toggle="collapse" aria-controls="collapseExample">
-            Wikipedia page of this word
-        </button>
-        <div class="collapse" id="collapseExample">
-            <div class="card card-body">
-                <iframe id="wikipedia-iframe" frameborder="0"></iframe>
+    <section id="info-section">
+        <div class="container text-center">
+            <button class="btn btn-dark" type="button" data-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" data-bs-toggle="collapse" aria-controls="collapseExample">
+                <p>This is a wikipedia page of this word</p>
+            </button>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <iframe id="wikipedia-iframe" frameborder="0"></iframe>
+                </div>
             </div>
+            <button class="btn btn-dark" type="button" data-toggle="collapse" data-bs-target="#collapseExample"
+                aria-expanded="false" data-bs-toggle="collapse" aria-controls="collapseExample">
+                ^
+            </button>
         </div>
     </section>
     <!-- colapsible -->
 
-    <section id="feedback-section" class="section">
-        <form>
-            <div class="form-group">
-                <label for="exampleFormControlInput1">Email address</label>
-                <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="name">
-                <input type="email" class="form-control" id="exampleFormControlInput2" placeholder="name@example.com">
-            </div>
-            <div class="form-group">
-                <label for="exampleFormControlTextarea1">Example textarea</label>
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <input type="submit" class="form-control" id="submit-feedback" value="send message">
-            </div>
-        </form>
+    <section id="feedback-section">
+        <div class="container text-center">
+            <h2>Seend me a feedback</h2>
+            <form id="feedback-message-form">
+                <div class="field form-group">
+
+                    <input type="text" name="from_name" id="from_name" class="form-control" placeholder="Full Name">
+                </div>
+                <div class="field form-group">
+
+                    <input type="text" name="email_id" id="email_id" class="form-control" placeholder="email_id">
+                </div>
+                <div class="field form-group">
+                    <label for="message">
+                        What could I do better?
+                    </label>
+                    <textarea class="form-control" name="message" id="message" rows="3">
+            </textarea>
+                </div>
+                <input type="submit" id="email-send-button" class="form-control btn btn-dark" value="Send Email"
+                    placeholder="email_id">
+            </form>
+        </div>
+
+
+        <!-- email config files-->
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+        <script src="assets/config/email-config.js"></script>
     </section>
-    <footer>
+
+    <!-- Lottie js for embeded animated icons -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-interactivity@latest/dist/lottie-interactivity.min.js"></script>
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <footer class="bg-dark">
+        <div id="footer-info-wrapper">
+            <h2>Hangman</h2>
+        </div>
+        <div id="icons-container">
+            <a href="https://www.facebook.com/" target="_blank">
+                <lottie-player src="assets/lottie-json-files/lottie-icons/facebook.json" background="transparent "
+                    class="footer-lottie-icon" speed="0.5" loop autoplay></lottie-player>
+            </a>
+            <a href="https://www.instagram.com/" target="_blank">
+                <lottie-player src="assets/lottie-json-files/lottie-icons/instagram.json" background="transparent "
+                    class="footer-lottie-icon" speed="1" loop autoplay></lottie-player>
+            </a>
+            <a href="https://www.youtube.com/" target="_blank">
+                <lottie-player src="assets/lottie-json-files/lottie-icons/youtube.json" background="transparent "
+                    class="footer-lottie-icon" speed="0.5" loop autoplay></lottie-player>
+            </a>
+            <a href="https://www.linkedin.com/in/branzaniuc-b-ba1807198/" target="_blank">
+                <lottie-player src="assets/lottie-json-files/lottie-icons/linkedin.json" background="transparent "
+                    class="footer-lottie-icon" speed="1" loop autoplay></lottie-player>
+            </a>
+        </div>
     </footer>
     <script type="module" src="assets/js/app.js"></script>
     <script src="assets/js/prevent-default.js"></script>

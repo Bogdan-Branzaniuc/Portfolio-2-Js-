@@ -8,27 +8,20 @@ import {
 import {
     HangmanLottieAnimation
 } from "./hangman-lottie-animation.js"
+
 let gameState
 const hangmanAnimationObject = new HangmanLottieAnimation()
 let currentDifficultyType
 let currentHintType = 'none'
 
-//helps with not rendering the game twice when changing difficulty-level with no tryes submitted yet
-let dfficultyLevelChangeLock
+let dfficultyLevelChangeLock //helps with not rendering the game twice when changing difficulty-level with no tryes submitted yet
 const startGame = async () => {
 
-    // ************* commented out for api-usage-limit reasons ***********************
-    // let puzzleWord = await wordsApiCall()
-    // while (!puzzleWord.results) {
-    //     puzzleWord = await wordsApiCall()
-    // }
-    let puzzleWord = {
-        word: 'flex-box',
-        results: [{
-            definition: 'greateness',
-            partOfSpeech: 'exclamation'
-        }]
+    let puzzleWord = await wordsApiCall()
+    while (!puzzleWord.results) {
+        puzzleWord = await wordsApiCall()
     }
+
     dfficultyLevelChangeLock = false
     gameState = new GameState(puzzleWord, hangmanAnimationObject)
     gameState.settings.difficulty = currentDifficultyType
@@ -47,7 +40,6 @@ startGame()
 document.querySelector('#hint-type-form').addEventListener('change', (e) => {
     gameState.settings.hint = e.target.id
     currentHintType = e.target.id
-    console.log(e.target.id)
     gameState.renderHint()
 })
 
@@ -83,14 +75,16 @@ document.querySelector('#reset-word-button').addEventListener('click', () => {
     }
 })
 
-document.querySelector('#input-letter-word-puzzle').addEventListener('click', (e) => {
-    if (gameState.isGameOverFlag || gameState.isGameWonFlag) {
-        return
-    }
-    const letterTry = e.target.textContent
-    gameState.makeGuess(letterTry)
-    dfficultyLevelChangeLock = true
+document.querySelectorAll('.hangman-keypad-buttons').forEach((button) => {
+    button.addEventListener('click', (e) => {
+        if (gameState.isGameOverFlag || gameState.isGameWonFlag) {
+            return
+        }
+        const letterTry = e.target.textContent
+        gameState.makeGuess(letterTry)
+        dfficultyLevelChangeLock = true
+    })
 })
 
 //// restart game after Game Over event is built in the gameState.renderGameOver()
-//// start a new game after Game Won event is built in the gameState.renderGameWon()
+//// start a new game after Game Won event is built in the gameState.renderGameWon()'

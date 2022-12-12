@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Electrolize&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,88 +7,55 @@
 
 a {
     text-decoration: none;
+    color: white
+}
+
+.scrollspy-body {
+    font-family: 'Electrolize', sans-serif;
+    font-size: 19px;
+    background-color: rgb(117, 221, 221);
+    color: black;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 50%;
+}
+
+p {
+    font-size: 24px;
 }
 
 #nav-bar {
     position: fixed;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20%;
+    top: 0;
     width: 100%;
+    min-height: 8%;
     color: white;
     z-index: 2000;
 }
 
-#input-trial-feedback {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-
-#input-trial-feedback-letter {
-    background-color: grey;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 200%;
-}
-
-#wikipedia-iframe {
-    height: 800px;
-    width: 80%
+#nav-bar h2 {
+    color: white;
+    width: 40%;
 }
 
 .section {
-    min-height: 60vh;
     width: 100%;
-    padding: 0 10%;
-}
-
-.game-settings-collumn {
-    text-align: left;
-}
-
-.game-settings-collumn>* {
-    width: 100%;
-
-}
-
-.game-section-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.btn-toolbar .hangman-keypad-buttons {
-    border: solid 1px black;
-    margin: 1px;
-}
-
-#word-junction-col {
-    position: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.game-settings-form .btn-group,
-.text-input-guess-word,
-.submit-settings-button,
-#reset-word-button,
-#restart-game-button,
-#try-new-game-button {
-    width: 100%;
-}
-
-.text-input-guess-word {
-    text-align: center;
-}
-
-
-#navbar-example2 {
-    position: fixed;
-    top: 0;
 }
 
 #introductory-section {
-    padding-top: 30vh;
+    padding-top: 20%;
+    height: 700px;
 }
 
 #hangman-lottie-container {
@@ -96,17 +65,160 @@ a {
 
 #hangman-animation-wrapper {
     width: 100%;
-    height: 900px;
 }
 
+#input-trial-feedback-letter {
+    display: flex;
+    background-color: grey;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+#input-trial-feedback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#input-trial-feedback-letter p {
+    line-height: 50px;
+    width: 50px;
+    height: 50px;
+    font-size: 150%;
+}
+
+
+#hangman-word-game-section .row {
+    height: 50%;
+}
+
+#hangman-word-game-section .text-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#hangman-word-game-section #settings-block {
+    height: 30%;
+    width: 70%;
+}
+
+
+#hangman-word-game-section #game-container {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 70%;
+}
+
+#settings-block form {
+    padding: 2% 0;
+}
+
+#hangman-word-game-section .btn-group {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    max-width: 100%;
+}
+
+#hangman-word-game-section .btn-group button {
+    color: white;
+    background-color: black;
+    line-height: 1px;
+    width: 3em;
+    height: 3em;
+    margin: 2px;
+    border-radius: 50%;
+}
+
+#settings-block .col {
+    position: relative;
+}
+
+#settings-block #difficulty-level-form label,
+#settings-block #hint-type-form label,
+#settings-block #reset-word-button {
+    border: 1px solid black;
+    margin: 3px;
+    border-radius: 3px;
+}
+
+
+#game-over-div,
+#game-won-div {
+    visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    bottom: -30%;
+    left: 5%;
+    padding: 2%;
+    height: 20vh;
+    z-index: 400;
+    background-color: red;
+    border-radius: 10px;
+}
+
+#game-won-div {
+    background-color: rgb(33, 238, 125);
+}
+
+#settings-block .game-settings-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+
+#hangman-word-game-section .container .text-center {
+    height: 100px;
+}
+
+.game-settings-row {
+    text-align: center;
+    height: 100%;
+}
+
+.game-settings-collumn>* {
+    width: 40%;
+}
+
+.game-section-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#word-junction-col {
+    height: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#word {
+    width: 100%;
+    font-size: 80%;
+}
 
 .puzzle-span-letter {
     border-bottom: 1px solid #534f59;
     display: inline-block;
-    font-size: 2rem;
-    height: 2.4rem;
-    line-height: 2.4rem;
-    margin: 0 .1rem;
+    font-size: 100%;
+    height: 5%;
+    line-height: 5%;
+    margin: 0 1%;
     text-align: center;
     text-transform: uppercase;
     width: 3%;
@@ -114,15 +226,170 @@ a {
 
 .puzzle-span-space {
     display: inline-block;
-    font-size: 1rem;
-    height: 2.4rem;
-    line-height: 2.4rem;
-    margin: 0 .1rem;
+    font-size: 100%;
+    height: 5%;
+    line-height: 5%;
+    margin: 0 2%;
     text-align: center;
     text-transform: uppercase;
     width: 3%;
 }
 
-#word {
+
+
+.game-settings-form .btn-group,
+.text-input-guess-word,
+.submit-settings-button,
+#reset-word-button,
+#restart-game-button,
+#try-new-game-button,
+#input-letter-word-puzzle {
+    width: 100%;
+}
+
+.btn-toolbar {
+    display: flex;
+    flex-direction: column;
+}
+
+.text-input-guess-word {
+    text-align: center;
+}
+
+
+#info-section,
+#feedback-section {
+    margin: 20% 0 10% 0;
+    width: 100%;
+}
+
+#info-section .btn {
+    width: 100%;
+    color: white;
+    font-size: 120%;
+}
+
+#wikipedia-iframe {
+    height: 600px;
+    width: 95%;
+}
+
+#feedback-section {
+    height: 70vh;
+}
+
+#feedback-message-form {
+    text-align: left;
+}
+
+footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
     height: 100px;
+}
+
+footer h2 {
+    width: 30%;
+    color: white;
+}
+
+footer #icons-container {
+    height: 90%;
+    width: 70%;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+
+}
+
+.footer-lottie-icon {
+    height: 40px;
+    width: 40px;
+}
+
+@media screen and (max-width: 700px) {
+
+    .scrollspy-body {
+        font-size: 15px;
+    }
+
+    h1,
+    h2,
+    h3 {
+        font-family: Oswald, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 30%
+    }
+
+    p {
+        font-size: 17px;
+    }
+
+    #nav-bar {
+        font-size: 90%;
+    }
+
+    #hangman-word-game-section #settings-block {
+        height: 30%;
+        width: 100%;
+    }
+
+    #hangman-word-game-section .btn-group button {
+        width: 2em;
+        height: 2em;
+    }
+
+    #info-section,
+    #feedback-section {
+        margin: 2.5%;
+        width: 95%;
+        padding: 30vh 2.5% 0;
+    }
+
+    .section {
+        width: 100%;
+        padding: 0 3%;
+        margin: 5% 0;
+    }
+}
+
+@media screen and (max-height: 1000px) {
+    #hangman-word-game-section #settings-block {
+        height: 30%;
+        width: 100%;
+    }
+
+    #input-letter-word-puzzle {
+        display: inline-flex;
+    }
+
+    #hangman-word-game-section .btn-group {
+        display: inline-flex;
+        justify-content: center;
+    }
+
+    #hangman-word-game-section .btn-group button {
+        width: 2em;
+        height: 2em;
+        margin: 1px;
+    }
+
+    #hangman-word-game-section #game-container {
+        height: 50%;
+    }
+
+    #game-over-div,
+    #game-won-div {
+        height: 200px;
+    }
+}
+
+@media screen and (max-width: 450px) {
+    #introductory-section {
+        margin-top: 20vh;
+    }
 }
