@@ -1,5 +1,5 @@
 class GameState {
-    constructor(puzzleWordData, hangmanAnimation) {
+    constructor(puzzleWordData, hangmanAnimation, domSelectors) {
         this.puzzleWordData = puzzleWordData
         this.puzzleWord = puzzleWordData.word
         this.settings = {
@@ -12,7 +12,6 @@ class GameState {
             definition: this.puzzleWordData.results[0].definition,
             none: "only use hints when needed"
         }
-
         this.lettersGuessed = []
         this.lettersTried = []
         this.letterTry = ''
@@ -21,37 +20,25 @@ class GameState {
         this.isGameOverFlag = false
         this.isGameWonFlag = false
 
-        //DOM ELEMENTS
         this.hangmanAnimation = hangmanAnimation
-        this.gameSettingsElement = document.getElementById('settings-block')
-        this.gameDiv = document.getElementById('word-junction-col')
-
-        this.wordJunctionWordElement = document.getElementById('word')
-        this.wordJunctionHintElement = document.getElementById('hint')
-        this.wordJunctionLivesElement = document.getElementById('lives')
-
-        this.letterTrialMessageElement = document.querySelector('#input-trial-feedback-message')
-        this.letterTrialDivElement = document.querySelector('#input-trial-feedback-letter')
-
-        this.settingsEllement = document.getElementById('settings-block')
-        this.gameOverEllement = document.getElementById('game-over-div')
-        this.gameWonEllement = document.getElementById('game-won-div')
+        //DOM ELEMENTS
+        this.domSelectors = domSelectors
     }
 
 
-    // renderGame will use all the other render-functions to render the current state of the gameState object
     renderGame() {
         this.renderWordPuzzle()
         this.setDifficulty(this.settings.difficulty) //also renders hangman animation
         this.renderHint()
         this.renderLetters()
         this.renderLives()
-        this.gameOverEllement.style.visibility = 'hidden'
-        this.gameWonEllement.style.visibility = 'hidden'
+        this.domSelectors.gameOverElement.style.visibility = 'hidden'
+        this.domSelectors.gameWonElement.style.visibility = 'hidden'
     }
 
+
     renderWordPuzzle() {
-        this.wordJunctionWordElement.innerHTML = ''
+        this.domSelectors.wordJunctionWordElement.innerHTML = ''
         // split puzzle and foreach letter create span element
         for (let i = 0; i < this.puzzleWord.length; i++) {
             const puzzleElement = document.createElement('span')
@@ -62,12 +49,13 @@ class GameState {
                 puzzleElement.setAttribute('class', "puzzle-span-letter")
                 puzzleElement.setAttribute('id', "puzzle-span-letter-" + this.puzzleWord[i] + i)
             }
-            this.wordJunctionWordElement.appendChild(puzzleElement)
+            this.domSelectors.wordJunctionWordElement.appendChild(puzzleElement)
         }
     }
 
+
     renderHint() {
-        this.wordJunctionHintElement.innerHTML = ''
+        this.domSelectors.wordJunctionHintElement.innerHTML = ''
         const puzzleWordHint = document.createElement('p')
         puzzleWordHint.textContent = "Hint: "
 
@@ -78,8 +66,9 @@ class GameState {
         } else {
             puzzleWordHint.textContent = this.hint.none
         }
-        this.wordJunctionHintElement.appendChild(puzzleWordHint)
+        this.domSelectors.wordJunctionHintElement.appendChild(puzzleWordHint)
     }
+
 
     renderLetters() {
         for (let i = 0; i < this.puzzleWord.length; i++) {
@@ -107,40 +96,45 @@ class GameState {
         }
     }
 
+
     renderLives() {
-        this.wordJunctionLivesElement.innerHTML = ''
+        this.domSelectors.wordJunctionLivesElement.innerHTML = ''
         const livesParagraph = document.createElement('p')
         const hearts = document.createElement('i')
         hearts.setAttribute('class', 'fa-solid fa-heart')
         hearts.setAttribute('id', 'lives-black-hearts')
         livesParagraph.textContent = ' ' + this.settings.lives + ' '
         livesParagraph.appendChild(hearts)
-        this.wordJunctionLivesElement.appendChild(livesParagraph)
+        this.domSelectors.wordJunctionLivesElement.appendChild(livesParagraph)
     }
 
+
     renderInputFeedback(input, feedback) {
-        this.letterTrialDivElement.innerHTML = ''
+        this.domSelectors.letterTrialDivElement.innerHTML = ''
         const letterElement = document.createElement('p')
 
         letterElement.textContent = input
         if (feedback == 0) {
-            this.letterTrialDivElement.style.backgroundColor = 'red'
-            this.letterTrialMessageElement.textContent = 'wrong guess'
+            this.domSelectors.letterTrialDivElement.style.backgroundColor = 'red'
+            this.domSelectors.letterTrialMessageElement.textContent = 'wrong guess'
         } else if (feedback == 1) {
-            this.letterTrialDivElement.style.backgroundColor = 'green'
-            this.letterTrialMessageElement.textContent = 'great!'
+            this.domSelectors.letterTrialDivElement.style.backgroundColor = 'green'
+            this.domSelectors.letterTrialMessageElement.textContent = 'great!'
             if (this.guessedThreeInARow === 3) {
-                this.letterTrialMessageElement.textContent += 'that was 3 in a row!! yoo got a live back!!'
+                this.domSelectors.letterTrialMessageElement.textContent += 'that was 3 in a row!! yoo got a live back!!'
             }
         } else if (feedback == 2) {
-            this.letterTrialDivElement.style.backgroundColor = 'orange'
-            this.letterTrialMessageElement.textContent = 'this letter was allready judged'
+            this.domSelectors.letterTrialDivElement.style.backgroundColor = 'orange'
+            this.domSelectors.letterTrialMessageElement.textContent = 'this letter was allready judged'
         }
-        this.letterTrialDivElement.appendChild(letterElement)
+        this.domSelectors.letterTrialDivElement.appendChild(letterElement)
     }
+
 
     renderKeypadCollors() {
         let flag = (this.isGameOverFlag || this.isGameWonFlag)
+
+        // querySelector in method ?? .. 
         document.querySelectorAll('.hangman-keypad-buttons').forEach((button) => {
             button.style.backgroundColor = 'black'
             if (this.lettersGuessed.includes(button.textContent)) {
@@ -153,6 +147,7 @@ class GameState {
         })
     }
 
+
     setDifficulty(sellectedDifficulty) {
         this.settings.difficulty = sellectedDifficulty
         if (this.settings.difficulty == 1) {
@@ -164,6 +159,7 @@ class GameState {
         )
         this.hangmanAnimation.renderHangmanAnimation(this.settings.lives)
     }
+
 
     makeGuess(letterTry) {
         let feedbackNumber
@@ -196,6 +192,8 @@ class GameState {
         this.renderKeypadCollors()
         this.wasThreeInARow()
     }
+
+
     wasThreeInARow() {
         if (this.guessedThreeInARow == 3) {
             this.settings.lives += 1
@@ -206,6 +204,7 @@ class GameState {
         }
     }
 
+
     isGameOver() {
         if (this.settings.lives <= 0) {
             this.isGameOverFlag = true
@@ -215,18 +214,20 @@ class GameState {
         }
     }
 
+
     gameOverTimeRestrictions(isGameOverTime) { //manipulating dom elements on gameover or not
         if (isGameOverTime) {
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-danger')
             document.querySelector('#input-letter-word-puzzle').value = 'Game Over'
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
-            this.gameOverEllement.innerHTML = ''
+            this.domSelectors.gameOverElement.innerHTML = ''
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-dark')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
         }
     }
+
 
     renderGameOver() { // creating dom Elements when game-over and listening to them
         const gameOverMessage1 = document.createElement('p')
@@ -237,24 +238,24 @@ class GameState {
         restartButton.textContent = "Restart Game"
         gameOverMessage1.textContent = 'Game Over'
         gameOverMessage2.textContent = 'The puzzle was "' + this.puzzleWord + '"'
-        this.gameOverEllement.style.visibility = 'visible'
-        this.gameOverEllement.appendChild(gameOverMessage1)
-        this.gameOverEllement.appendChild(gameOverMessage2)
-        this.gameOverEllement.appendChild(restartButton)
-        this.gameDiv.appendChild(this.gameOverEllement)
+        this.domSelectors.gameOverElement.style.visibility = 'visible'
+        this.domSelectors.gameOverElement.appendChild(gameOverMessage1)
+        this.domSelectors.gameOverElement.appendChild(gameOverMessage2)
+        this.domSelectors.gameOverElement.appendChild(restartButton)
+        this.domSelectors.gameDiv.appendChild(this.domSelectors.gameOverElement)
 
-        gsap.from(this.gameOverEllement, {
+        gsap.from(this.domSelectors.gameOverElement, {
             x: 900,
             duration: 1,
             opacity: 0,
             ease: Bounce.easeOut
         })
-
         document.querySelector('#restart-game-button').addEventListener('click', () => {
             this.gameOverTimeRestrictions(false)
             this.startGame()
         })
     }
+
 
     isGameWon() {
         if (this.puzzleWord.replace(/\s/g, '').split('').every(letter => this.lettersGuessed.includes(letter))) {
@@ -264,18 +265,21 @@ class GameState {
             document.querySelector('#wikipedia-iframe').src = 'https://en.wikipedia.org/w/index.php?search=' + this.puzzleWord.split('-').join(' ')
         }
     }
+
+
     successTimeRestrictions(gameWon) {
         if (gameWon) {
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-success')
             document.querySelector('#input-letter-word-puzzle').value = 'Success'
             document.querySelector('#input-letter-word-puzzle').disabled = true
         } else {
-            this.gameWonEllement.innerHTML = ''
+            this.domSelectors.gameWonElement.innerHTML = ''
             document.querySelector('#reset-word-button').setAttribute('class', 'btn btn-dark')
             document.querySelector('#input-letter-word-puzzle').value = ''
             document.querySelector('#input-letter-word-puzzle').disabled = false
         }
     }
+
 
     renderGameWon() { // creating dom Elements when game-won and listening to them
         const gameWonMessage1 = document.createElement('p')
@@ -284,13 +288,11 @@ class GameState {
         restartButton.setAttribute('id', 'try-new-game-button')
         restartButton.textContent = "Try a new one"
         gameWonMessage1.textContent = 'Congrats'
-        this.gameWonEllement.style.visibility = 'visible'
-        this.gameWonEllement.appendChild(gameWonMessage1)
-        this.gameWonEllement.appendChild(restartButton)
-        this.gameDiv.appendChild(this.gameWonEllement)
-
-
-        gsap.from(this.gameWonEllement, {
+        this.domSelectors.gameWonElement.style.visibility = 'visible'
+        this.domSelectors.gameWonElement.appendChild(gameWonMessage1)
+        this.domSelectors.gameWonElement.appendChild(restartButton)
+        this.domSelectors.gameDiv.appendChild(this.domSelectors.gameWonElement)
+        gsap.from(this.domSelectors.gameWonElement, {
             x: 900,
             duration: 1,
             opacity: 0,
@@ -302,7 +304,6 @@ class GameState {
             this.startGame()
         })
     }
-
 
 }
 export {

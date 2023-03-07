@@ -12,7 +12,18 @@ import {
 let gameState
 const hangmanAnimationObject = new HangmanLottieAnimation()
 let currentDifficultyType
-let currentHintType = 'none'
+let currentHintType
+const domSelectors = {
+    gameSettings: document.getElementById('settings-block'),
+    gameDiv: document.getElementById('word-junction-col'),
+    wordJunctionWordElement: document.getElementById('word'),
+    wordJunctionHintElement: document.getElementById('hint'),
+    wordJunctionLivesElement: document.getElementById('lives'),
+    letterTrialMessageElement: document.querySelector('#input-trial-feedback-message'),
+    letterTrialDivElement: document.querySelector('#input-trial-feedback-letter'),
+    gameOverElement: document.getElementById('game-over-div'),
+    gameWonElement: document.getElementById('game-won-div')
+}
 
 let dfficultyLevelChangeLock //helps with not rendering the game twice when changing difficulty-level with no tryes submitted yet
 const startGame = async () => {
@@ -20,17 +31,17 @@ const startGame = async () => {
     while (!puzzleWord.results) {
         puzzleWord = await wordsApiCall()
     }
-
     dfficultyLevelChangeLock = false
-    gameState = new GameState(puzzleWord, hangmanAnimationObject)
+    gameState = new GameState(puzzleWord, hangmanAnimationObject, domSelectors)
     gameState.settings.difficulty = currentDifficultyType
+
     document.getElementById('hint-option-none').checked = true
     gameState.startGame = startGame // we can start a new game within the objects methods if needed
     gameState.renderGame()
     gameState.renderKeypadCollors()
-    gameState.letterTrialMessageElement.textContent = 'Make a guess'
-    gameState.letterTrialDivElement.innerHTML = ''
-    gameState.letterTrialDivElement.style.backgroundColor = 'grey'
+    gameState.domSelectors.letterTrialMessageElement.textContent = 'Make a guess'
+    gameState.domSelectors.letterTrialDivElement.innerHTML = ''
+    gameState.domSelectors.letterTrialDivElement.style.backgroundColor = 'grey'
 }
 
 startGame()
@@ -44,7 +55,6 @@ document.querySelector('#hint-type-form').addEventListener('change', (e) => {
 //word difficulty change
 document.querySelector('#difficulty-level-form').addEventListener('change', (e) => {
     let sellectedDifficulty = e.target.id[e.target.id.length - 1]
-    //setTimeout()
     if (!dfficultyLevelChangeLock) {
         gameState.setDifficulty(sellectedDifficulty)
         currentDifficultyType = sellectedDifficulty
@@ -83,6 +93,3 @@ document.querySelectorAll('.hangman-keypad-buttons').forEach((button) => {
         dfficultyLevelChangeLock = true
     })
 })
-
-//// restart game after Game Over event is built in the gameState.renderGameOver()
-//// start a new game after Game Won event is built in the gameState.renderGameWon()'
